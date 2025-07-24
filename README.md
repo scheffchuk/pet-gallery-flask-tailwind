@@ -6,7 +6,8 @@
 
 ![App Preview](./assets/preview.png)
 
-*メイン機能:*
+_メイン機能:_
+
 - コミュニティペットギャラリー（メインページ）
 - ペット画像投稿フォーム
 - AI 品種識別結果表示
@@ -59,9 +60,11 @@
 
 ### フロントエンド
 
-- **Tailwind CSS 4.1.11** - スタイリングフレームワーク
+- **Tailwind CSS 4.1.11** - モダンなスタイリングフレームワーク
 - **Jinja2 テンプレート** - サーバーサイドレンダリング
-- **JavaScript** - クライアントサイドインタラクション
+- **グラデーションデザイン** - 美しい視覚効果とカードボーダー
+- **レスポンシブレイアウト** - モバイル・タブレット・PC対応
+- **最小限のJavaScript** - 削除確認ダイアログのみ
 
 ### データベース
 
@@ -89,7 +92,7 @@
 ### 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:scheffchuk/pet-gallery-flask-tailwind.git
 cd dcc_app
 ```
 
@@ -194,7 +197,7 @@ npm run watch-css
 
 ```bash
 cd api
-python api_app.py
+python api.py
 ```
 
 API サーバーは `http://localhost:5001` で起動します
@@ -216,14 +219,16 @@ Web アプリケーションは `http://localhost:5000` で起動します
 ## ユーザーロールと機能
 
 ### 👤 **一般ユーザー**
+
 - **ログイン後のリダイレクト**: ペットギャラリー（メインページ）
 - **利用可能機能**:
-  - ペット画像の投稿とAI品種識別
+  - ペット画像の投稿と AI 品種識別
   - コミュニティギャラリーの閲覧
   - 自分の投稿画像の削除
   - プロフィール管理（自分のみ）
 
 ### 🛡️ **管理者ユーザー**
+
 - **ログイン後のリダイレクト**: ペットギャラリー（一般ユーザーと同じ）
 - **利用可能機能**:
   - 一般ユーザーの全機能
@@ -233,6 +238,7 @@ Web アプリケーションは `http://localhost:5000` で起動します
 - **管理機能アクセス**: ナビゲーションバーの「管理 🛡️」ボタンから
 
 ### 🔐 **セキュリティ機能**
+
 - **権限分離**: 管理機能は管理者のみアクセス可能
 - **自己保護**: 管理者は自分自身を削除できない
 - **個人情報保護**: ユーザーは自分の情報のみ編集可能
@@ -338,33 +344,63 @@ Content-Type: multipart/form-data
 dcc_app/
 ├── api/                          # 分類API
 │   ├── api.py                   # Flask APIサーバー
-│   └── dog_cat_classification_fine_tuned_e30.keras
+│   └── dog_cat_classification_fine_tuned_e30.keras  # 学習済みモデル
 ├── apps/                        # メインWebアプリケーション
 │   ├── app.py                   # Flaskアプリファクトリ
 │   ├── config.py                # 設定（ロールベース認証含む）
 │   ├── auth/                    # 認証モジュール
 │   │   ├── forms.py             # ログイン・登録フォーム
 │   │   ├── views.py             # 認証ロジック
-│   │   └── templates/           # 認証テンプレート
+│   │   └── templates/auth/      # 認証テンプレート
+│   │       ├── base.html        # 認証ベーステンプレート
+│   │       ├── index.html       # 認証インデックス
+│   │       ├── login.html       # ログインフォーム
+│   │       └── signup.html      # ユーザー登録フォーム
 │   ├── classifier/              # 画像分類モジュール
+│   │   ├── __init__.py          # モジュール初期化
 │   │   ├── forms.py             # 画像アップロードフォーム
 │   │   ├── models.py            # 画像・タグモデル
 │   │   ├── views.py             # ギャラリー・アップロード機能
-│   │   └── templates/           # ギャラリーテンプレート
+│   │   └── templates/classifier/ # ギャラリーテンプレート
+│   │       ├── base.html        # ギャラリーベーステンプレート
+│   │       ├── index.html       # メインギャラリーページ
+│   │       └── upload.html      # 画像アップロードページ
 │   ├── crud/                    # ユーザー管理モジュール
+│   │   ├── __init__.py          # モジュール初期化
 │   │   ├── forms.py             # ユーザー管理フォーム
 │   │   ├── models.py            # ユーザーモデル（ロール機能含む）
 │   │   ├── views.py             # 管理者・プロフィール機能
-│   │   └── templates/           # 管理・プロフィールテンプレート
-│   ├── images/                  # アップロード画像保存場所
-│   └── static/                  # 静的アセット
-├── migrations/                   # データベースマイグレーション
+│   │   └── templates/crud/      # 管理・プロフィールテンプレート
+│   │       ├── base.html        # CRUD ベーステンプレート
+│   │       ├── create.html      # ユーザー作成フォーム
+│   │       ├── edit.html        # ユーザー編集フォーム
+│   │       ├── edit_profile.html# プロフィール編集フォーム
+│   │       ├── index.html       # ユーザー管理一覧
+│   │       └── profile.html     # プロフィール表示
+│   ├── images/                  # アップロード画像保存場所（UUID命名）
+│   └── static/                  # アプリケーション静的ファイル
+│       ├── input.css            # Tailwind入力CSS
+│       └── output.css           # コンパイル済みCSS
+├── assets/                      # プロジェクト資料
+│   └── preview.png              # README用プレビュー画像
+├── env312/                      # Python仮想環境（Python 3.12）
+├── migrations/                  # データベースマイグレーション
+│   ├── README                   # マイグレーション説明
+│   ├── alembic.ini              # Alembic設定
+│   ├── env.py                   # マイグレーション環境設定
+│   ├── script.py.mako           # マイグレーションスクリプトテンプレート
+│   └── versions/                # マイグレーションバージョン管理
+│       ├── 11f7ac7b7382_.py     # 初期マイグレーション
+│       └── fa1c8077c76a_add_role_field_to_users_table.py  # ロール機能追加
+├── node_modules/                # Node.js依存関係
 ├── static/                      # グローバル静的ファイル
-├── create_admin_simple.py        # 管理者ユーザー作成スクリプト
-├── requirements.txt             # Python依存関係
-├── package.json                 # Node.js依存関係
-├── .env.example                 # 環境変数設定例
-└── local.sqlite                # SQLiteデータベース
+│   ├── input.css                # Tailwind入力CSS（グローバル）
+│   └── output.css               # コンパイル済みCSS（グローバル）
+├── create_admin_simple.py       # 管理者ユーザー作成スクリプト
+├── local.sqlite                 # SQLiteデータベース
+├── package.json                 # Node.js依存関係設定
+├── package-lock.json            # Node.js依存関係ロック
+└── requirements.txt             # Python依存関係
 ```
 
 ## 開発
@@ -432,10 +468,12 @@ flask shell
    - ファイルサイズと形式を確認（PNG/JPG のみ）
 
 5. **CSS 読み込み失敗**
+
    - `npm run build-css`を実行して CSS を生成
    - テンプレート内の静的ファイルパスを確認
 
 6. **ユーザー権限エラー**
+
    - 管理機能にアクセスできない場合、ユーザーロールを確認
    - `python create_admin_simple.py`で管理者ユーザーを作成
    - 既存ユーザーの権限変更は Flask shell で実行
