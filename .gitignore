@@ -1,0 +1,53 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+env312/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.sqlite
+*.db
+
+# Node modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploaded Images (keep directory but ignore image files)
+apps/images/*.jpg
+apps/images/*.jpeg
+apps/images/*.png
+apps/images/*.gif
+apps/images/*.bmp
+apps/images/*.tiff
+apps/images/*.webp
+
+# Keep directory structure
+!apps/images/.gitkeep
+
+# Tailwind CSS
+static/output.css

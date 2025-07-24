@@ -1,0 +1,66 @@
+{% extends "classifier/base.html" %} {% block content %}
+
+<div class="space-y-6">
+
+  <!-- 画像アップロード画面へのリンクを追加する -->
+  <div class="flex justify-end">
+    <a
+      href="{{ url_for('classifier.upload_image') }}"
+      class="bg-gradient-to-r from-purple-400 to-pink-500 text-white px-6 py-3 rounded-2xl hover:from-purple-500 hover:to-pink-600 transition-all duration-300 font-bold shadow-lg transform hover:scale-105"
+    >
+      画像新規登録 📷✨
+    </a>
+  </div>
+
+  <!-- 画像一覧を表示する -->
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {% for user_image in user_images %}
+    <div class="p-1 bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 rounded-3xl shadow-xl hover:from-pink-500 hover:via-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">
+      <div class="bg-white rounded-3xl overflow-hidden h-full">
+      <div class="p-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <!-- 削除ボタンのフォームを追加する -->
+            <form
+              action="{{ url_for('classifier.delete_image', image_id=user_image.UserImage.id) }}"
+              method="POST"
+              class="inline"
+            >
+              {{ delete_form.csrf_token }} {% if current_user.id ==
+              user_image.User.id %} {{ delete_form.submit(class="bg-gradient-to-r from-red-400 to-pink-500
+              text-white px-3 py-1 rounded-full text-sm hover:from-red-500 hover:to-pink-600 transition-all
+              duration-300 font-bold shadow-md", value="削除 🗑️") }} {% else %} {{ delete_form.submit(class="hidden
+              text-white px-3 py-1 rounded text-sm cursor-not-allowed",
+              disabled="disabled") }} {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="p-4">
+        <img
+          src="{{ url_for('classifier.image_file', filename=user_image.UserImage.image_path) }}"
+          alt="アップロード画像"
+          class="w-full h-64 object-cover rounded-2xl shadow-lg"
+        />
+      </div>
+      <!-- タグ情報を表示する -->
+      <div class="px-4 pb-4">
+        <div class="flex flex-row justify-between gap-2">
+          {% for tag in user_image_tag_dict[user_image.UserImage.id] %}
+          <span
+            class="bg-gradient-to-r from-blue-100 to-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full shadow-md border border-purple-200"
+          >
+            {{ tag.tag_name }}
+          </span>
+          <div class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
+            {{ user_image.User.username }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

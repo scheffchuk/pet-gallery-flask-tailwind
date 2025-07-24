@@ -1,0 +1,32 @@
+{% extends "auth/base.html" %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-3xl shadow-xl border-4 border-pink-300">
+    <div class="text-center mb-6">
+        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">ログイン 🌸</h2>
+    </div>
+    <form method="post" action="{{ url_for('auth.login') }}" class="space-y-4">
+        {% for message in get_flashed_messages() %}
+        <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-2xl">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {{ form.csrf_token }}
+        <div>
+            {{ form.email(class="w-full px-4 py-3 border-2 border-pink-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-pink-300 focus:border-pink-400 transition-all duration-300", placeholder="📧 メールアドレス") }}
+        </div>
+        <div>
+            {{ form.password(class="w-full px-4 py-3 border-2 border-pink-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-pink-300 focus:border-pink-400 transition-all duration-300", placeholder="🔐 パスワード") }}
+        </div>
+        <div>
+            {{ form.submit(class="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white py-3 px-6 rounded-2xl hover:from-pink-500 hover:to-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300 font-bold text-lg shadow-lg transform hover:scale-105", value="ログイン ✨") }}
+        </div>
+    </form>
+    <div class="text-center mt-6">
+        <p class="text-gray-600">アカウントをお持ちでない方は</p>
+        <a href="{{ url_for('auth.signup') }}" class="text-purple-600 hover:text-purple-800 font-semibold underline">新規登録はこちら 🌟</a>
+    </div>
+</div>
+{% endblock %}

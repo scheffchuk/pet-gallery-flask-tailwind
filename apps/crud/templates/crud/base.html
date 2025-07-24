@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- titleを継承先で実装する -->
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='output.css') }}"
+    />
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-green-200 via-blue-200 to-purple-200 min-h-screen"
+  >
+    <header
+      class="bg-white shadow-xl border-b-4 border-green-300 rounded-b-3xl"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if current_user.is_authenticated %}
+        <div class="flex justify-between items-center py-4">
+          <h1
+            class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-600"
+          >
+            編集 📁✨
+          </h1>
+          <div class="flex items-center space-x-4">
+            <span
+              class="text-green-700 font-bold bg-white px-3 py-1 rounded-full shadow-md"
+              >👤 {{ current_user.username }}</span
+            >
+            <a
+              href="{{ url_for('auth.logout') }}"
+              class="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-full font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              >ログアウト 👋</a
+            >
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- フラッシュメッセージ表示 -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="mb-6">
+            {% for message in messages %}
+              <div class="bg-gradient-to-r from-yellow-100 to-orange-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-xl shadow-lg mb-3">
+                <div class="flex items-center">
+                  <span class="text-2xl mr-3">💬</span>
+                  <p class="font-semibold">{{ message }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+{% extends 'crud/base.html' %}
+{% block title %}ユーザー編集{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl border-4 border-yellow-300 p-8">
+    <div class="mb-6">
+        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-600">ユーザー編集 ✏️✨</h2>
+    </div>
+    
+    <form action="{{ url_for('crud.edit_user', user_id=user.id) }}" method="POST" class="space-y-4 mb-6">
+        {{ form.csrf_token }}
+        
+        <div>
+            {{ form.username.label(class="block text-lg font-bold text-yellow-700 mb-2") }}
+            {{ form.username(placeholder="👤 ユーザー名", value=user.username, class="w-full px-4 py-3 border-2 border-yellow-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:border-yellow-400 transition-all duration-300 shadow-md") }}
+            {% for error in form.username.errors %}
+            <div class="text-red-600 text-sm font-semibold bg-red-50 p-2 rounded-xl border border-red-200 mt-2">⚠️ {{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div>
+            {{ form.email.label(class="block text-lg font-bold text-yellow-700 mb-2") }}
+            {{ form.email(placeholder="📧 メールアドレス", value=user.email, class="w-full px-4 py-3 border-2 border-yellow-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:border-yellow-400 transition-all duration-300 shadow-md") }}
+            {% for error in form.email.errors %}
+            <div class="text-red-600 text-sm font-semibold bg-red-50 p-2 rounded-xl border border-red-200 mt-2">⚠️ {{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div>
+            {{ form.password.label(class="block text-lg font-bold text-yellow-700 mb-2") }}
+            {{ form.password(placeholder="🔐 パスワード", class="w-full px-4 py-3 border-2 border-yellow-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:border-yellow-400 transition-all duration-300 shadow-md") }}
+            {% for error in form.password.errors %}
+            <div class="text-red-600 text-sm font-semibold bg-red-50 p-2 rounded-xl border border-red-200 mt-2">⚠️ {{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="pt-4">
+            <input type="submit" value="更新 ✨" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 px-6 rounded-2xl hover:from-yellow-500 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 font-bold text-lg shadow-lg transform hover:scale-105 cursor-pointer" />
+        </div>
+    </form>
+
+    <div class="border-t-2 border-red-200 pt-6">
+        <form action="{{ url_for('crud.delete_user', user_id=user.id) }}" method="POST">
+            {{ form.csrf_token }}
+            <input type="submit" value="削除 🗑️" class="w-full bg-gradient-to-r from-red-400 to-pink-500 text-white py-3 px-6 rounded-2xl hover:from-red-500 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition-all duration-300 font-bold text-lg shadow-lg transform hover:scale-105 cursor-pointer" onclick="return confirm('本当に削除しますか？');">
+        </form>
+    </div>
+</div>
+{% endblock %}

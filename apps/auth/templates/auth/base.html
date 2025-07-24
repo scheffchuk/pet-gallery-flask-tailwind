@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}" />
+</head>
+
+<body class="bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full space-y-8">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+
+</html>

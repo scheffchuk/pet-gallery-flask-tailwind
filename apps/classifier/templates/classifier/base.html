@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ペットギャラリーアプリ</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='output.css') }}"
+    />
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 min-h-screen"
+  >
+    <!-- ナビゲーションバーを作成する -->
+    <nav>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a
+              class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 hover:from-purple-500 hover:to-blue-600 transition-all duration-300"
+              href="{{ url_for('classifier.index') }}"
+              >ペットギャラリーアプリ🐱🐶</a
+            >
+          </div>
+          <div class="flex items-center space-x-4">
+            {% if current_user.is_authenticated %}
+            <!-- ナビゲーションメニュー -->
+            <a
+              href="{{ url_for('crud.profile') }}"
+              class="bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              >プロフィール 👤</a
+            >
+            {% if current_user.is_admin() %}
+            <a
+              href="{{ url_for('crud.users') }}"
+              class="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              >管理 🛡️</a
+            >
+            {% endif %}
+            <a
+              href="{{ url_for('auth.logout') }}"
+              class="bg-red-400 hover:bg-red-500 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              >ログアウト 👋</a
+            >
+            {% else %}
+            <a
+              class="bg-gradient-to-r from-blue-400 to-green-500 hover:from-blue-500 hover:to-green-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              href="{{ url_for('auth.signup') }}"
+              >新規登録 🚀</a
+            >
+            <a
+              class="bg-gradient-to-r from-pink-400 to-purple-500 hover:from-pink-500 hover:to-purple-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-all duration-300 transform hover:scale-105"
+              href="{{ url_for('auth.login') }}"
+              >ログイン ✨</a
+            >
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- block contentをmain要素で囲む -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- フラッシュメッセージ表示 -->
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="mb-6">
+        {% for message in messages %}
+        <div
+          class="bg-gradient-to-r from-yellow-100 to-orange-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-xl shadow-lg mb-3"
+        >
+          <div class="flex items-center">
+            <span class="text-2xl mr-3">💬</span>
+            <p class="font-semibold">{{ message }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

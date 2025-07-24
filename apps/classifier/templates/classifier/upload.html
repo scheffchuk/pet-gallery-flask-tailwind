@@ -1,0 +1,28 @@
+{% extends "classifier/base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl border-4 border-purple-300 p-8">
+    <div class="mb-6">
+        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 mb-2">画像新規登録 📷✨</h2>
+        <p class="text-purple-600 font-semibold">可愛いペットの写真をアップロードしてね。 🐱🐶💕</p>
+    </div>
+    
+    <form action="{{ url_for('classifier.upload_image') }}" method="post" enctype="multipart/form-data" class="space-y-4">
+        {{ form.csrf_token }}
+        
+        <div>
+            <label class="block text-lg font-bold text-purple-700 mb-3">
+                画像ファイル 🇫🇷
+            </label>
+            {{ form.image(class="block w-full text-sm text-purple-600 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-2 file:border-purple-200 file:text-sm file:font-bold file:bg-gradient-to-r file:from-purple-50 file:to-pink-50 file:text-purple-700 hover:file:from-purple-100 hover:file:to-pink-100 file:shadow-lg file:transition-all file:duration-300") }}
+        </div>
+        
+        {% for error in form.image.errors %}
+        <div class="text-red-600 text-sm font-semibold bg-red-50 p-2 rounded-xl border border-red-200">⚠️ {{ error }}</div>
+        {% endfor %}
+        
+        <div class="pt-6 border-t-2 border-purple-200">
+            {{ form.submit(class="w-full bg-gradient-to-r from-purple-400 to-pink-500 text-white py-3 px-6 rounded-2xl hover:from-purple-500 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300 font-bold text-lg shadow-lg transform hover:scale-105", value="アップロード 🚀") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
